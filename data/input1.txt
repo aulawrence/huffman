@@ -1,0 +1,25 @@
+Arithmetic coding is a form of entropy encoding used in lossless data compression.
+ Normally, a string of characters such as the words "hello there" is represented using a fixed number of bits per character, as in the ASCII code.
+ When a string is converted to arithmetic encoding, frequently used characters will be stored with fewer bits and not-so-frequently occurring characters will be stored with more bits, resulting in fewer bits used in total.
+ Arithmetic coding differs from other forms of entropy encoding, such as Huffman coding, in that rather than separating the input into component symbols and replacing each with a code, arithmetic coding encodes the entire message into a single number, an arbitrary-precision fraction q where 0.
+0 ≤ q < 1.
+0.
+ It represents the current information as a range, defined by two numbers.
+ Recent family of entropy coders called asymmetric numeral systems allows for faster implementations thanks to directly operating on a single natural number representing the current information.
+
+
+The LZ4 algorithm represents the data as a series of sequences.
+ Each sequence begins with a one-byte token that is broken into two 4-bit fields.
+ The first field represents the number of literal bytes that are to be copied to the output.
+ The second field represents the number of bytes to copy from the already decoded output buffer (with 0 representing the minimum match length of 4 bytes).
+ A value of 15 in either of the bitfields indicates that the length is larger and there is an extra byte of data that is to be added to the length.
+ A value of 255 in these extra bytes indicates that yet another byte to be added.
+ Hence arbitrary lengths are represented by a series of extra bytes containing the value 255.
+ The string of literals comes after the token and any extra bytes needed to indicate string length.
+ This is followed by an offset that indicates how far back in the output buffer to begin copying.
+ The extra bytes (if any) of the match-length come at the end of the sequence.
+[3][4]
+
+Compression can be carried out in a stream or in blocks.
+ Higher compression ratios can be achieved by investing more effort in finding the best matches.
+ This results in both a smaller output and faster decompression.
